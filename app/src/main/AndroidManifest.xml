@@ -12,6 +12,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
+        <activity android:name=".activities.ScannerActivity" />
         <activity android:name=".activities.MainActivity" />
 
         <activity android:name=".activities.LogInActivity">
