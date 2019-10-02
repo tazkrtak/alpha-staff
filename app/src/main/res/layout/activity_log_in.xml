@@ -12,7 +12,7 @@
         android:gravity="center"
         android:orientation="vertical"
         android:padding="32dp"
-        tools:context=".LogInActivity">
+        tools:context=".activities.LogInActivity">
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,10 +36,10 @@
             android:layout_margin="4dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/bus_code_edit_text"
+                android:id="@+id/bus_id_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/bus_code"
+                android:hint="@string/bus_id"
                 android:textColor="@android:color/white" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -55,6 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
+                android:inputType="textPassword"
                 android:textColor="@android:color/white" />
 
         </com.google.android.material.textfield.TextInputLayout>
