@@ -2,7 +2,11 @@
     <string name="app_name">Tazkrtak - Conductor</string>
     <string name="tazkrtak">Tazkrtak</string>
     <string name="conductor">conductor</string>
-    <string name="bus_code">Bus Code</string>
+    <string name="bus_id">Bus ID</string>
     <string name="password">Password</string>
     <string name="log_in">Log In</string>
+    <string name="id_error">Bus doesn\'t exist!</string>
+    <string name="password_error">Incorrect Password!</string>
+    <string name="id_required">Bus ID is Required!</string>
+    <string name="password_required">Password is Required!</string>
 </resources>
