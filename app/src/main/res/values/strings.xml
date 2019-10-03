@@ -12,4 +12,5 @@
     <string name="scan">Scan</string>
     <string name="turn_on_flashlight">Turn on Flashlight</string>
     <string name="turn_off_flashlight">Turn off Flashlight</string>
+    <string name="keep_me_signed_in">Keep me signed in</string>
 </resources>

@@ -60,6 +60,14 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <CheckBox
+            android:id="@+id/keep_signed_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/keep_me_signed_in"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="start" />
+
         <Button
             android:id="@+id/login_button"
             android:layout_width="180dp"
