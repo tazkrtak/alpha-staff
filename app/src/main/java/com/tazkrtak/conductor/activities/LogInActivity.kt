@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tazkrtak.conductor.R
 import com.tazkrtak.conductor.util.Hash
+import com.tazkrtak.conductor.util.SharedPrefHelper
 import kotlinx.android.synthetic.main.activity_log_in.*
 
 class LogInActivity : AppCompatActivity() {
@@ -13,6 +14,16 @@ class LogInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+
+        val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
+        if (SharedPrefHelper.getString(this, "busId") != "") {
+            startActivity(intent)
+            finish()
+        }
+
         setContentView(R.layout.activity_log_in)
 
         login_button.setOnClickListener {
@@ -41,9 +52,11 @@ class LogInActivity : AppCompatActivity() {
                         return@addOnSuccessListener
                     }
 
-                    val intent = Intent(this, MainActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    if (keep_signed_checkbox.isChecked) {
+                        SharedPrefHelper.addString(this, "busId", id)
+                        SharedPrefHelper.addString(this, "password", Hash.sha512(password))
+                    }
+
                     startActivity(intent)
                     finish()
 
@@ -51,6 +64,4 @@ class LogInActivity : AppCompatActivity() {
         }
 
     }
-
-
 }
