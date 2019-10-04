@@ -11,6 +11,7 @@ import com.journeyapps.barcodescanner.BarcodeResult
 import com.journeyapps.barcodescanner.DecoratedBarcodeView
 import com.tazkrtak.conductor.R
 import kotlinx.android.synthetic.main.activity_scanner.*
+import kotlinx.android.synthetic.main.view_qr.*
 
 class ScannerActivity : Activity(), DecoratedBarcodeView.TorchListener {
 
@@ -22,6 +23,7 @@ class ScannerActivity : Activity(), DecoratedBarcodeView.TorchListener {
             if (result.text != null && result.text != lastText) {
                 lastText = result.text
                 // TODO: Implement what happens after a QR code is scanned.
+                qr_status_icon.setImageResource(R.drawable.ic_success)
                 barcode_scanner.setStatusText(result.text)
             }
         }
@@ -34,6 +36,10 @@ class ScannerActivity : Activity(), DecoratedBarcodeView.TorchListener {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scanner)
+
+        // Hide the status bar.
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+        actionBar?.hide()
 
         controlFlashlightButton()
         flashlight_button.setOnClickListener { controlFlashlight() }
@@ -72,7 +78,7 @@ class ScannerActivity : Activity(), DecoratedBarcodeView.TorchListener {
     }
 
     private fun controlFlashlight() {
-        if (getString(R.string.turn_on_flashlight) == flashlight_button.text) {
+        if (flashlight_button.alpha == 0.5F) {
             barcode_scanner.setTorchOn()
         } else {
             barcode_scanner.setTorchOff()
@@ -80,11 +86,11 @@ class ScannerActivity : Activity(), DecoratedBarcodeView.TorchListener {
     }
 
     override fun onTorchOn() {
-        flashlight_button.setText(R.string.turn_off_flashlight)
+        flashlight_button.alpha = 1F
     }
 
     override fun onTorchOff() {
-        flashlight_button.setText(R.string.turn_on_flashlight)
+        flashlight_button.alpha = 0.5F
     }
 
 }
