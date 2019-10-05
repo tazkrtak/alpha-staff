@@ -1,10 +1,15 @@
 package com.tazkrtak.conductor.activities
 
+import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.zxing.ResultPoint
 import com.journeyapps.barcodescanner.BarcodeCallback
 import com.journeyapps.barcodescanner.BarcodeResult
@@ -16,6 +21,7 @@ import kotlinx.android.synthetic.main.view_qr.*
 class ScannerActivity : Activity(), DecoratedBarcodeView.TorchListener {
 
     private var lastText: String = ""
+    private val MY_PERMISSIONS_REQUEST_CAMERA = 1
 
     private val callback = object : BarcodeCallback {
 
@@ -37,6 +43,37 @@ class ScannerActivity : Activity(), DecoratedBarcodeView.TorchListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scanner)
 
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    Manifest.permission.CAMERA
+                )
+            ) {
+
+                AlertDialog.Builder(this)
+                    .setTitle("Permission needed")
+                    .setMessage("${getString(R.string.app_name)} need camera permission to read QR Code.")
+                    .setPositiveButton("ok") { _, _ ->
+                        ActivityCompat.requestPermissions(
+                            this, arrayOf(Manifest.permission.CAMERA)
+                            , MY_PERMISSIONS_REQUEST_CAMERA
+                        )
+                    }.setNegativeButton("cancel") { dialogInterface, _ ->
+                        dialogInterface.dismiss()
+                    }
+                    .create()
+                    .show()
+            } else {
+                ActivityCompat.requestPermissions(
+                    this, arrayOf(Manifest.permission.CAMERA)
+                    , MY_PERMISSIONS_REQUEST_CAMERA
+                )
+            }
+        }
+
         // Hide the status bar.
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         actionBar?.hide()
@@ -46,7 +83,6 @@ class ScannerActivity : Activity(), DecoratedBarcodeView.TorchListener {
 
         barcode_scanner.setTorchListener(this)
         barcode_scanner.decodeContinuous(callback)
-
     }
 
     override fun onResume() {
@@ -93,4 +129,18 @@ class ScannerActivity : Activity(), DecoratedBarcodeView.TorchListener {
         flashlight_button.alpha = 0.5F
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == MY_PERMISSIONS_REQUEST_CAMERA) {
+            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
+            }
+            return
+        }
+    }
 }
