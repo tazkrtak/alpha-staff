@@ -1,12 +1,12 @@
-package com.tazkrtak.conductor.activities
+package com.tazkrtak.staff.activities
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.zxing.integration.android.IntentIntegrator
-import com.tazkrtak.conductor.R
-import com.tazkrtak.conductor.util.SharedPrefHelper
+import com.tazkrtak.staff.R
+import com.tazkrtak.staff.util.SharedPrefHelper
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
