@@ -1,4 +1,4 @@
-package com.tazkrtak.conductor.util
+package com.tazkrtak.staff.util
 
 import java.security.MessageDigest
 

@@ -1,12 +1,12 @@
-package com.tazkrtak.conductor.activities
+package com.tazkrtak.staff.activities
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
-import com.tazkrtak.conductor.R
-import com.tazkrtak.conductor.util.Hash
-import com.tazkrtak.conductor.util.SharedPrefHelper
+import com.tazkrtak.staff.R
+import com.tazkrtak.staff.util.Hash
+import com.tazkrtak.staff.util.SharedPrefHelper
 import kotlinx.android.synthetic.main.activity_log_in.*
 
 class LogInActivity : AppCompatActivity() {

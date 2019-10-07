@@ -1,4 +1,4 @@
-package com.tazkrtak.conductor.models
+package com.tazkrtak.staff.models
 
 data class Bus(
     val id: String? = null,

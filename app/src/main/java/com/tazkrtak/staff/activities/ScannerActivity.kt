@@ -1,4 +1,4 @@
-package com.tazkrtak.conductor.activities
+package com.tazkrtak.staff.activities
 
 import android.Manifest
 import android.app.Activity
@@ -14,7 +14,7 @@ import com.google.zxing.ResultPoint
 import com.journeyapps.barcodescanner.BarcodeCallback
 import com.journeyapps.barcodescanner.BarcodeResult
 import com.journeyapps.barcodescanner.DecoratedBarcodeView
-import com.tazkrtak.conductor.R
+import com.tazkrtak.staff.R
 import kotlinx.android.synthetic.main.activity_scanner.*
 import kotlinx.android.synthetic.main.view_qr.*
 
