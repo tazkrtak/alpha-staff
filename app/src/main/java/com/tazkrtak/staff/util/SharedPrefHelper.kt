@@ -27,4 +27,9 @@ object SharedPrefHelper {
         }
     }
 
+    fun exists(context: Context, key: String): Boolean {
+        val sharedPref = context.getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE)
+        return sharedPref.contains(key)
+    }
+
 }
