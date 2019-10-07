@@ -20,30 +20,32 @@ class MainActivity : AppCompatActivity() {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
-        val savedId = SharedPrefHelper.getString(this, "busId")
-        val password = SharedPrefHelper.getString(this, "password")
+        if (SharedPrefHelper.exists(this, "busId")) {
+            val savedId = SharedPrefHelper.getString(this, "busId")
+            val savedPassword = SharedPrefHelper.getString(this, "password")
 
-        val db = FirebaseFirestore.getInstance()
-        db.collection("buses")
-            .document(savedId)
-            .get()
-            .addOnSuccessListener {
-                if (!it.exists() || it.data!!["password"] != password) {
-                    SharedPrefHelper.removeString(this, "busId")
-                    SharedPrefHelper.removeString(this, "password")
-                    startActivity(intent)
-                    finish()
-                    return@addOnSuccessListener
+            val db = FirebaseFirestore.getInstance()
+            db.collection("buses")
+                .document(savedId)
+                .get()
+                .addOnSuccessListener {
+                    if (!it.exists() || it.data!!["password"] != savedPassword) {
+                        SharedPrefHelper.removeString(this, "busId")
+                        SharedPrefHelper.removeString(this, "password")
+                        startActivity(intent)
+                        finish()
+                        return@addOnSuccessListener
+                    }
                 }
+        }
 
-                scan_button.setOnClickListener {
-                    val integrator = IntentIntegrator(this)
-                    integrator.captureActivity = ScannerActivity::class.java
-                    integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
-                    integrator.setBeepEnabled(false)
-                    integrator.initiateScan()
-                }
+        scan_button.setOnClickListener {
+            val integrator = IntentIntegrator(this)
+            integrator.captureActivity = ScannerActivity::class.java
+            integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
+            integrator.setBeepEnabled(false)
+            integrator.initiateScan()
+        }
 
-            }
     }
 }
