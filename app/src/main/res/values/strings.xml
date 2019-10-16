@@ -5,7 +5,7 @@
     <string name="bus_id">Bus ID</string>
     <string name="password">Password</string>
     <string name="log_in">Log In</string>
-    <string name="id_error">Bus doesn\'t exist!</string>
+    <string name="id_error">Bus doesn\'t exist</string>
     <string name="password_error">Incorrect Password!</string>
     <string name="id_required">Bus ID is Required!</string>
     <string name="password_required">Password is Required!</string>
@@ -13,4 +13,8 @@
     <string name="turn_on_flashlight">Turn on Flashlight</string>
     <string name="turn_off_flashlight">Turn off Flashlight</string>
     <string name="keep_me_signed_in">Keep me signed in</string>
+    <string name="permission">Tazkrtak needs camera permission to read QR Code.</string>
+    <string name="permission_needed">Permission needed</string>
+    <string name="ok">ok</string>
+    <string name="cancel">cancel</string>
 </resources>

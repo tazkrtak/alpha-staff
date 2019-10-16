@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">طاقم تذكرتك</string>
+    <string name="bus_id">رقم الحافلة</string>
+    <string name="id_error">الحافلة غير موجودة</string>
+    <string name="id_required">رقم الحافلة مطلوب</string>
+    <string name="log_in">تسجيل دخول</string>
+    <string name="password">كلمة المرور</string>
+    <string name="password_error">كلمة المرور خاطئة</string>
+    <string name="password_required">كلمة المرور مطلوبة</string>
+    <string name="scan">مسح</string>
+    <string name="staff">طاقم</string>
+    <string name="tazkrtak">تذكرتك</string>
+    <string name="turn_off_flashlight">إطفاء الضوء</string>
+    <string name="turn_on_flashlight">فتح الضوء</string>
+    <string name="permission">تذكرتك بحاجة إلى إذن الكاميرا لقراءة رمز الاستجابة السريعة</string>
+    <string name="permission_needed">حاجة الى إذن</string>
+    <string name="cancel">إلغاء</string>
+    <string name="ok">موافق</string>
+    <string name="keep_me_signed_in">إبقائي مسجل</string>
+</resources>

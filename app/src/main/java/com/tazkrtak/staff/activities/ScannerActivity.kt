@@ -54,14 +54,14 @@ class ScannerActivity : Activity(), DecoratedBarcodeView.TorchListener {
             ) {
 
                 AlertDialog.Builder(this)
-                    .setTitle("Permission needed")
-                    .setMessage("${getString(R.string.app_name)} need camera permission to read QR Code.")
-                    .setPositiveButton("ok") { _, _ ->
+                    .setTitle(getString(R.string.permission_needed))
+                    .setMessage(getString(R.string.permission))
+                    .setPositiveButton(getString(R.string.ok)) { _, _ ->
                         ActivityCompat.requestPermissions(
                             this, arrayOf(Manifest.permission.CAMERA)
                             , MY_PERMISSIONS_REQUEST_CAMERA
                         )
-                    }.setNegativeButton("cancel") { dialogInterface, _ ->
+                    }.setNegativeButton(getString(R.string.cancel)) { dialogInterface, _ ->
                         dialogInterface.dismiss()
                     }
                     .create()
