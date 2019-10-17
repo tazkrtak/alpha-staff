@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:orientation="vertical"
     tools:context=".activities.MainActivity">
 
     <Button
@@ -12,6 +13,15 @@
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_shape_primary"
         android:text="@string/scan"
+        android:textColor="@color/grey_100" />
+
+    <Button
+        android:id="@+id/sign_out_button"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/rounded_shape_primary"
+        android:text="@string/sign_out"
         android:textColor="@color/grey_100" />
 
 </LinearLayout>

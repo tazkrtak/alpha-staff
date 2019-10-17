@@ -4,13 +4,13 @@ import java.security.MessageDigest
 
 object Hash {
 
-    private const val HEX_CHARS = "0123456789ABCDEF"
+    private const val HEX_CHARS = "0123456789abcdef"
 
     fun sha512(input: String): String {
         return hash("SHA-512", input)
     }
 
-    private fun hash(type: String,input: String): String {
+    private fun hash(type: String, input: String): String {
 
         val bytes = MessageDigest
             .getInstance(type)
