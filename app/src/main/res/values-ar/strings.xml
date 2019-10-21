@@ -18,4 +18,10 @@
     <string name="tazkrtak">تذكرتك</string>
     <string name="turn_off_flashlight">إطفاء الضوء</string>
     <string name="turn_on_flashlight">فتح الضوء</string>
+    <string name="ticket_validation_error">رمز الإستجابة السريعة غير معتمد</string>
+    <string name="transaction_balance_error">عفواً، الرصيد غير كافي</string>
+    <string name="currency">ج.م.</string>
+    <string name="fees_matching_error">إدخالات الرسوم غير مطابقة</string>
+    <string name="successful_transaction">عملية ناجحة</string>
+    <string name="repeated_transaction">عملية مكررة</string>
 </resources>

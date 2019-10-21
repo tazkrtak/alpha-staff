@@ -13,6 +13,9 @@ android {
         minSdkVersion 24
         targetSdkVersion 29
         multiDexEnabled true
+        buildConfigField "com.tazkrtak.staff.util.Mode",
+                "Mode",
+                "com.tazkrtak.staff.util.Mode.TEST"
     }
     buildTypes {
         release {
@@ -35,4 +38,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore-ktx:21.2.0'
     implementation 'com.journeyapps:zxing-android-embedded:4.0.0'
     implementation 'com.google.zxing:core:3.4.0'
+    implementation 'dev.turingcomplete:kotlin-onetimepassword:2.0.0'
 }
