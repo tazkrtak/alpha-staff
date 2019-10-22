@@ -2,12 +2,13 @@ package com.tazkrtak.staff.util
 
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.tazkrtak.staff.App
 import com.tazkrtak.staff.R
 import com.tazkrtak.staff.models.Account
+import com.tazkrtak.staff.models.AuthResult
 import com.tazkrtak.staff.models.Collector
 import com.tazkrtak.staff.models.Conductor
 import kotlinx.coroutines.tasks.await
+import java.security.MessageDigest
 
 object Auth {
 
@@ -17,25 +18,31 @@ object Auth {
     var currentUser: Account? = null
 
     suspend fun isSignedIn(): Boolean {
-        if (currentUser == null) {
-            val data = getPrefs()
-            if (!data[ID].isNullOrEmpty() && !data[PASSWORD].isNullOrEmpty()) {
-                fetchData(data[ID].toString(), data[PASSWORD].toString())
-                return true
-            }
+        if (currentUser != null) return true
+        val data = getPrefs()
+        if (!data[ID].isNullOrEmpty() && !data[PASSWORD].isNullOrEmpty()) {
+            val result = fetchData(data[ID].toString(), data[PASSWORD].toString())
+            return result.isSuccess
         }
         return false
     }
 
-    suspend fun signIn(id: String, password: String) {
+    suspend fun signIn(id: String, password: String): AuthResult {
 
-        if (id.isEmpty()) throw AuthIdException(getMessage(R.string.id_required))
-        if (password.isEmpty()) throw AuthPasswordException(getMessage(R.string.password_required))
+        if (id.isEmpty()) {
+            return AuthResult(R.string.id_required, target = AuthResult.Target.ID)
+        }
 
-        val hashedPassword = Hash.sha512(password)
-        fetchData(id, hashedPassword)
-        setPrefs(id, hashedPassword)
+        if (password.isEmpty()) {
+            return AuthResult(R.string.password_required, target = AuthResult.Target.PASSWORD)
+        }
 
+        val hashedPassword = hash(password)
+        val result = fetchData(id, hashedPassword)
+        if (result.isSuccess) {
+            setPrefs(id, hashedPassword)
+        }
+        return result
     }
 
     fun signOut() {
@@ -51,16 +58,22 @@ object Auth {
         }
     }
 
-    private suspend fun fetchData(id: String, hashedPassword: String) {
+    private suspend fun fetchData(id: String, hashedPassword: String): AuthResult {
 
         val db = FirebaseFirestore.getInstance()
         val doc = db.collection("staff").document(id).get().await()
 
-        if (!doc.exists()) throw AuthIdException(getMessage(R.string.id_error))
+        if (!doc.exists()) {
+            return AuthResult(R.string.id_error, target = AuthResult.Target.ID)
+        }
+
         val docPassword = doc.data?.get(PASSWORD)?.toString()
-        if (docPassword != hashedPassword) throw AuthPasswordException(getMessage(R.string.password_error))
+        if (docPassword != hashedPassword) {
+            return AuthResult(R.string.password_error, target = AuthResult.Target.PASSWORD)
+        }
 
         currentUser = getAccountFromDocument(id, doc)
+        return AuthResult(isSuccess = true)
     }
 
     private fun getPrefs(): Map<String, String> {
@@ -75,12 +88,24 @@ object Auth {
         SharedPref.addString(PASSWORD, hashedPassword)
     }
 
-    private fun getMessage(id: Int): String {
-        return App.appContext!!.getString(id)
-    }
+    private fun hash(password: String): String {
 
-    abstract class AuthException(message: String) : Exception(message)
-    class AuthIdException(message: String) : AuthException(message)
-    class AuthPasswordException(message: String) : AuthException(message)
+        val hexChars = "0123456789abcdef"
+
+        val bytes = MessageDigest
+            .getInstance("SHA-512")
+            .digest(password.toByteArray())
+
+        val hash = StringBuilder(bytes.size * 2)
+
+        bytes.forEach {
+            val i = it.toInt()
+            hash.append(hexChars[i shr 4 and 0x0f])
+            hash.append(hexChars[i and 0x0f])
+        }
+
+        return hash.toString()
+
+    }
 
 }

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.tazkrtak.staff.R
+import com.tazkrtak.staff.models.AuthResult
 import com.tazkrtak.staff.util.Auth
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import kotlinx.coroutines.CoroutineScope
@@ -14,35 +15,41 @@ import kotlin.coroutines.CoroutineContext
 
 class SignInActivity : AppCompatActivity(), CoroutineScope {
 
+    private val job: Job = Job()
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
-
-    private lateinit var job: Job
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
 
-        job = Job()
-
-        sign_in_button.setOnClickListener {
-
-            id_edit_text.error = null
-            id_edit_text.error = null
-
-            val id = id_edit_text.text.toString()
-            val password = password_edit_text.text.toString()
+        sign_in_button.setOnClickListener { _ ->
 
             launch {
-                try {
-                    Auth.signIn(id, password)
-                    launchMainActivity()
-                } catch (e: Auth.AuthIdException) {
-                    id_edit_text.error = e.message
-                } catch (e: Auth.AuthPasswordException) {
-                    password_edit_text.error = e.message
+
+                var id: String
+                var password: String
+
+                id_edit_text.let {
+                    it.error = null
+                    id = it.text.toString()
                 }
+                password_edit_text.let {
+                    it.error = null
+                    password = it.text.toString()
+                }
+
+                val authResult = Auth.signIn(id, password)
+                if (authResult.isSuccess) {
+                    launchMainActivity()
+                } else {
+                    if (authResult.target == AuthResult.Target.ID)
+                        id_edit_text.error = authResult.message
+                    else if (authResult.target == AuthResult.Target.PASSWORD)
+                        password_edit_text.error = authResult.message
+                }
+
             }
 
         }

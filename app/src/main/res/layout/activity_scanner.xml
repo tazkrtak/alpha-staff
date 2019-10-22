@@ -25,7 +25,7 @@
         android:text="@string/turn_on_flashlight" />
 
     <NumberPicker
-        android:id="@+id/tickets_fees_picker"
+        android:id="@+id/price_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:overScrollMode="always"

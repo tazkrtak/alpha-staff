@@ -13,16 +13,14 @@ import kotlin.coroutines.CoroutineContext
 
 class SplashScreenActivity : AppCompatActivity(), CoroutineScope {
 
+    private val job: Job = Job()
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
-
-    private lateinit var job: Job
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
-        job = Job()
 
         launch {
             if (Auth.isSignedIn()) {
