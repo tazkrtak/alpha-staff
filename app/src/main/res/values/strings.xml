@@ -17,4 +17,10 @@
     <string name="tazkrtak">Tazkrtak</string>
     <string name="turn_off_flashlight">Turn off Flashlight</string>
     <string name="turn_on_flashlight">Turn on Flashlight</string>
+    <string name="ticket_validation_error">Not Supported QR Code</string>
+    <string name="transaction_balance_error">Not enough balance</string>
+    <string name="currency">EGP</string>
+    <string name="fees_matching_error">Non matching Fees\' entries</string>
+    <string name="successful_transaction">Successful Transaction</string>
+    <string name="repeated_transaction">Repeated Transaction</string>
 </resources>
