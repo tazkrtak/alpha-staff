@@ -6,13 +6,12 @@ import kotlinx.coroutines.tasks.await
 
 object ClientRepository {
 
+    val COLLECTION = "users"
+
     suspend fun get(nationalId: String): Client? {
-
         val db = FirebaseFirestore.getInstance()
-        val doc = db.collection("users").document(nationalId).get().await()
-
-        if (!doc.exists()) return null
-
-        return doc.toObject(Client::class.java)!!
+        val doc = db.collection(COLLECTION).document(nationalId).get().await()
+        return doc.toObject(Client::class.java)
     }
+
 }
