@@ -12,7 +12,5 @@ data class Client(
     var lastTransactionId: String? = null
 ) {
     val totp: String
-        get() {
-            return GoogleAuthenticator(secret!!).generate()
-        }
+        get() = GoogleAuthenticator(secret!!).generate()
 }
