@@ -27,4 +27,6 @@
     <string name="transaction_balance_error">عفواً، الرصيد غير كافي</string>
     <string name="turn_off_flashlight">إطفاء الضوء</string>
     <string name="turn_on_flashlight">فتح الضوء</string>
+    <string name="hello">أهلا،ً</string>
+    <string name="help">المساعدة</string>
 </resources>
