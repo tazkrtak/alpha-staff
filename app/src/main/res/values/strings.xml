@@ -26,4 +26,6 @@
     <string name="transaction_balance_error">Not enough balance</string>
     <string name="turn_off_flashlight">Turn off Flashlight</string>
     <string name="turn_on_flashlight">Turn on Flashlight</string>
+    <string name="hello">Hello,</string>
+    <string name="help">Help</string>
 </resources>
