@@ -10,6 +10,7 @@ interface Account {
     val type: Type
 
     suspend fun executeTask(ticket: Ticket, extra: Map<String, Any>): TaskResult
+    fun makeTransaction(clientNationalId: String, amount: Double)
 
     enum class Type { CONDUCTOR, COLLECTOR }
 

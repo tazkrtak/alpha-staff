@@ -28,4 +28,5 @@
     <string name="turn_on_flashlight">Turn on Flashlight</string>
     <string name="hello">Hello,</string>
     <string name="help">Help</string>
+    <string name="transaction_repeated_notation">This Client has made a successful transaction from this bus at:</string>
 </resources>

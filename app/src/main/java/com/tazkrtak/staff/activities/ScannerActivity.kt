@@ -3,6 +3,7 @@ package com.tazkrtak.staff.activities
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.KeyEvent
@@ -22,6 +23,7 @@ import com.tazkrtak.staff.models.TaskResult
 import com.tazkrtak.staff.models.Ticket
 import com.tazkrtak.staff.util.Auth
 import kotlinx.android.synthetic.main.activity_scanner.*
+import kotlinx.android.synthetic.main.repeated_transaction_daialog_box.view.*
 import kotlinx.android.synthetic.main.view_qr.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,6 +37,9 @@ class ScannerActivity : Activity(), DecoratedBarcodeView.TorchListener, Coroutin
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
 
+    private lateinit var dialog: Dialog
+    private lateinit var repeatedTransactionDialogView: View
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         requestCameraPermission()
@@ -42,6 +47,10 @@ class ScannerActivity : Activity(), DecoratedBarcodeView.TorchListener, Coroutin
         setContentView(R.layout.activity_scanner)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         actionBar?.hide()
+
+        dialog = Dialog(this)
+        repeatedTransactionDialogView =
+            layoutInflater.inflate(R.layout.repeated_transaction_daialog_box, null)
 
         controlFeesPicker()
         controlFlashlightButton()
@@ -97,15 +106,37 @@ class ScannerActivity : Activity(), DecoratedBarcodeView.TorchListener, Coroutin
                         mapOf(
                             Conductor.REQUESTED_PRICE to getSelectedTicketPrice()
                         )
-                    ) ?: return@launch
+                    )
 
-                barcode_scanner.setStatusText(taskResult.message)
-                qr_status_icon.setImageResource(
-                    if (taskResult.isSuccess) R.drawable.ic_success
-                    else R.drawable.ic_fail
-                )
+                if (taskResult!!.messageId == R.string.repeated_transaction) {
+                    dialog.setContentView(repeatedTransactionDialogView)
+                    repeatedTransactionDialogView.transaction_information_text_view.text =
+                        taskResult.details
+                    barcode_scanner.pause()
+                    dialog.show()
+
+                    repeatedTransactionDialogView.positive_dialog_button.setOnClickListener {
+                        (Auth.currentUser!! as Conductor).makeTransaction(
+                            taskResult.extra[Conductor.CLIENT_ID] as String,
+                            taskResult.extra[Conductor.FEES] as Double
+                        )
+                        dialog.dismiss()
+                        barcode_scanner.resume()
+                    }
+                    repeatedTransactionDialogView.negative_dialog_button.setOnClickListener {
+                        dialog.dismiss()
+                        barcode_scanner.resume()
+                    }
+
+                } else {
+                    barcode_scanner.setStatusText(taskResult.message)
+                    qr_status_icon.setImageResource(
+                        if (taskResult.isSuccess) R.drawable.ic_success
+                        else R.drawable.ic_fail
+                    )
+                }
             }
-
+            
         }
 
         override fun possibleResultPoints(resultPoints: List<ResultPoint>) {}
