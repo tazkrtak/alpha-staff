@@ -1,6 +1,7 @@
 package com.tazkrtak.staff.models
 
 import com.tazkrtak.staff.R
+import com.tazkrtak.staff.activities.MainActivity
 import com.tazkrtak.staff.repositories.ClientRepository
 import com.tazkrtak.staff.repositories.TransactionRepository
 import java.util.concurrent.TimeUnit
@@ -40,17 +41,27 @@ data class Conductor(
             ) {
                 return TaskResult(
                     R.string.repeated_transaction,
-                    "${lastTransaction.timestamp?.toDate()}"
+                    "${lastTransaction.timestamp?.toDate()}",
+                    extra = mapOf(
+                        CLIENT_ID to client.nationalId!!,
+                        FEES to ticket.totalFees
+                    )
                 )
             }
         }
 
-        TransactionRepository.set(client.nationalId!!, bus?.id!!, -ticket.totalFees)
+        makeTransaction(client.nationalId!!, ticket.totalFees)
         return TaskResult(R.string.successful_transaction, isSuccess = true)
     }
 
+    override fun makeTransaction(clientNationalId: String, amount: Double) {
+        TransactionRepository.set(clientNationalId, bus?.id!!, -amount)
+    }
+
     companion object Inputs {
-        val REQUESTED_PRICE = "requested_price"
+        const val REQUESTED_PRICE = "requested_price"
+        const val CLIENT_ID = "clientNationalId"
+        const val FEES = "totalFees"
         val THRESHOLD = TimeUnit.MINUTES.toSeconds(10)
     }
 

@@ -12,4 +12,8 @@ data class Collector(
         TODO("not implemented")
     }
 
+    override fun makeTransaction(clientNationalId: String, amount: Double) {
+        TODO("not implemented")
+    }
+
 }
