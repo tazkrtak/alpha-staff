@@ -3,8 +3,11 @@ package com.tazkrtak.staff.repositories
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.tazkrtak.staff.models.Conductor
 import com.tazkrtak.staff.models.Transaction
+import com.tazkrtak.staff.util.Auth
 import kotlinx.coroutines.tasks.await
+import java.util.concurrent.TimeUnit
 
 object TransactionRepository {
 
@@ -39,6 +42,19 @@ object TransactionRepository {
 
         }
 
+    }
+
+    suspend fun getCountOfToday(): Int {
+        val currentSeconds = System.currentTimeMillis() / 1000
+        val startOfTheDayEpoch = currentSeconds - (currentSeconds % TimeUnit.DAYS.toSeconds(1))
+
+        val db = FirebaseFirestore.getInstance()
+        val busId = (Auth.currentUser!! as Conductor).bus!!.id
+        val docs = db.collection(COLLECTION)
+            .whereGreaterThanOrEqualTo("timestamp", Timestamp(startOfTheDayEpoch, 0))
+            .whereEqualTo("issuer", busId).get().await()
+
+        return docs.size()
     }
 
 }
