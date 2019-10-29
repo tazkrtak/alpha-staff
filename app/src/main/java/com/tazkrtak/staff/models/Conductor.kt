@@ -57,6 +57,7 @@ data class Conductor(
     }
 
     override fun makeTransaction(clientNationalId: String, amount: Double) {
+        MainActivity.ticketsCount++
         TransactionRepository.set(clientNationalId, bus?.id!!, -amount)
     }
 

@@ -30,4 +30,5 @@
     <string name="hello">أهلا،ً</string>
     <string name="help">المساعدة</string>
     <string name="transaction_repeated_notation">لقد أجرى هذا العميل معاملة ناجحة في هذه الحافلة في:</string>
+    <string name="ticket_count">عدد التذاكر المباعة اليوم:</string>
 </resources>
