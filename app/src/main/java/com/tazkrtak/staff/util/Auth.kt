@@ -7,6 +7,7 @@ import com.tazkrtak.staff.models.Account
 import com.tazkrtak.staff.models.AuthResult
 import com.tazkrtak.staff.models.Collector
 import com.tazkrtak.staff.models.Conductor
+import com.tazkrtak.staff.repositories.BusRepository
 import kotlinx.coroutines.tasks.await
 import java.security.MessageDigest
 
@@ -50,9 +51,11 @@ object Auth {
         currentUser = null
     }
 
-    private fun getAccountFromDocument(id: String, doc: DocumentSnapshot): Account? {
+    private suspend fun getAccountFromDocument(id: String, doc: DocumentSnapshot): Account? {
         return if (Account.typeOf(id) == Account.Type.CONDUCTOR) {
-            doc.toObject(Conductor::class.java)
+            doc.toObject(Conductor::class.java).also {
+                it!!.bus = BusRepository.get(doc["busId"].toString())
+            }
         } else {
             doc.toObject(Collector::class.java)
         }
