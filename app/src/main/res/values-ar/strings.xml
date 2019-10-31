@@ -31,4 +31,9 @@
     <string name="help">المساعدة</string>
     <string name="transaction_repeated_notation">لقد أجرى هذا العميل معاملة ناجحة في هذه الحافلة في:</string>
     <string name="ticket_count">عدد التذاكر المباعة اليوم:</string>
+    <string name="issuer">جهة الإصدار</string>
+    <string name="amount">القيمة</string>
+    <string name="since">منذ</string>
+    <string name="minute">دقيقة</string>
+    <string name="no_transaction">لا يوجد عملية ناجحة...</string>
 </resources>
