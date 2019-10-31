@@ -30,4 +30,9 @@
     <string name="help">Help</string>
     <string name="transaction_repeated_notation">This Client has made a successful transaction from this bus at:</string>
     <string name="ticket_count">Today\'s ticket count:</string>
+    <string name="issuer">Issuer</string>
+    <string name="amount">Amount</string>
+    <string name="since">Since</string>
+    <string name="minute">min.</string>
+    <string name="no_transaction">No Transaction Found...</string>
 </resources>

@@ -6,6 +6,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.Gravity
 import android.view.KeyEvent
 import android.view.View
 import android.widget.Toast
@@ -17,10 +18,7 @@ import com.journeyapps.barcodescanner.BarcodeCallback
 import com.journeyapps.barcodescanner.BarcodeResult
 import com.journeyapps.barcodescanner.DecoratedBarcodeView
 import com.tazkrtak.staff.R
-import com.tazkrtak.staff.models.Account
-import com.tazkrtak.staff.models.Conductor
-import com.tazkrtak.staff.models.TaskResult
-import com.tazkrtak.staff.models.Ticket
+import com.tazkrtak.staff.models.*
 import com.tazkrtak.staff.util.Auth
 import kotlinx.android.synthetic.main.activity_scanner.*
 import kotlinx.android.synthetic.main.repeated_transaction_daialog_box.view.*
@@ -47,6 +45,10 @@ class ScannerActivity : Activity(), DecoratedBarcodeView.TorchListener, Coroutin
         setContentView(R.layout.activity_scanner)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         actionBar?.hide()
+
+        if (Auth.currentUser!!.type == Account.Type.COLLECTOR) {
+            qr_status_icon.isGone = true
+        }
 
         dialog = Dialog(this)
         repeatedTransactionDialogView =
@@ -128,6 +130,8 @@ class ScannerActivity : Activity(), DecoratedBarcodeView.TorchListener, Coroutin
                         barcode_scanner.resume()
                     }
 
+                } else if (taskResult.messageId == Collector.MESSAGE_ID) {
+                    barcode_scanner.setStatusText(taskResult.details)
                 } else {
                     barcode_scanner.setStatusText(taskResult.message)
                     qr_status_icon.setImageResource(
@@ -136,7 +140,7 @@ class ScannerActivity : Activity(), DecoratedBarcodeView.TorchListener, Coroutin
                     )
                 }
             }
-            
+
         }
 
         override fun possibleResultPoints(resultPoints: List<ResultPoint>) {}
@@ -171,9 +175,11 @@ class ScannerActivity : Activity(), DecoratedBarcodeView.TorchListener, Coroutin
     }
 
     private fun getSelectedTicketPrice(): Double {
-        val conductor = Auth.currentUser as Conductor
-        val prices = conductor.bus?.ticketsPrices!!
-        return prices[price_picker.value]
+        return if (Auth.currentUser!!.type == Account.Type.CONDUCTOR) {
+            val conductor = Auth.currentUser as Conductor
+            val prices = conductor.bus?.ticketsPrices!!
+            prices[price_picker.value]
+        } else 0.0
     }
 
 
